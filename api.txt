@@ -1,0 +1,9 @@
+GET /login (json med username, password) -> json token?
+
+GET /profile (json username, or url parameters?) -> json with profile data
+
+POST /challenge (json token, permissions?) -> 200 OK / 400 ?
+
+POST /newUser json username, password -> 200 OK / 400 ?
+
+

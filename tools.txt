@@ -1,0 +1,12 @@
+maven for dependencies and build / execution
+
+spring (boot?) for backend server
+Java language for backend server
+
+HTML CSS JavaScript -> front end
+
+Git versioning
+
+RESTful server type-ish ?
+
+See api.txt

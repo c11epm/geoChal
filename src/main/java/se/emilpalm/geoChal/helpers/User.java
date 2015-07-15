@@ -1,5 +1,6 @@
 package se.emilpalm.geoChal.helpers;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -10,7 +11,28 @@ public class User {
     private String password;
     private int id;
     private int points;
-    private List<User> firends;
+    private List<User> friends;
+
+    public User() {
+
+    }
+
+    public User(String username, String password, int id) {
+        this.username = username;
+        this.password = password;
+        this.id = id;
+        points = 0;
+        friends = new LinkedList<>();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof User) {
+            User u = (User) obj;
+            return u.id == this.id && u.username.equals(this.username);
+        }
+        return false;
+    }
 
     public String getUsername() {
         return username;
@@ -44,11 +66,11 @@ public class User {
         this.points = points;
     }
 
-    public List<User> getFirends() {
-        return firends;
+    public List<User> getFriends() {
+        return friends;
     }
 
-    public void setFirends(List<User> firends) {
-        this.firends = firends;
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
     }
 }

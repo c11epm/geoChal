@@ -4,8 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import se.emilpalm.geoChal.helpers.Login;
 import se.emilpalm.geoChal.helpers.User;
 
 import java.util.Map;
@@ -27,6 +29,19 @@ public class Users {
             return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<User>(users.get(name), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public ResponseEntity<String> newUser(@RequestBody Login login) {
+        if(users.containsKey(login.getUsername())) {
+            return new ResponseEntity<String>("User already registered.", HttpStatus.BAD_REQUEST);
+        }
+        User newUser = new User(login.getUsername(), login.getPassword(), users.size());
+        users.put(newUser.getUsername(), newUser);
+
+        String response = "User: " + newUser.getUsername() + " created successfully";
+
+        return new ResponseEntity<String>(response, HttpStatus.OK);
     }
 
     public static User getStoredUser(String username) {

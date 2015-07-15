@@ -25,12 +25,11 @@ public class Authentication {
 
         if(login != null) {
             User u = Users.getStoredUser(login.getUsername());
-            if(u.getPassword().equals(login.getPassword()) && u.getUsername().equals(login.getUsername())) {
-                if(tokens.containsKey(u.getUsername())) {
-                    tokens.get(u.getUsername()).reNew();
-                } else {
-                    tokens.put(u.getUsername(), new Token(u.getUsername()));
+            if(u != null && u.getPassword().equals(login.getPassword()) && u.getUsername().equals(login.getUsername())) {
+                if(tokens.get(u.getUsername()).isValid()) {
+                    return new ResponseEntity<Token>(tokens.get(u.getUsername()), HttpStatus.OK);
                 }
+                tokens.put(u.getUsername(), new Token(u.getUsername()));
 
                 return new ResponseEntity<Token>(tokens.get(u.getUsername()), HttpStatus.OK);
             }
@@ -38,15 +37,5 @@ public class Authentication {
 
         return new ResponseEntity<Token>(HttpStatus.BAD_REQUEST);
     }
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ResponseEntity<Login> get() {
-        Login login = new Login();
-        login.setPassword("hej");
-        login.setUsername("emil");
-
-        return new ResponseEntity<Login>(login, HttpStatus.OK);
-    }
-
 
 }

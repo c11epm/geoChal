@@ -9,17 +9,9 @@ public class Challenge {
     private String creatorUser;
     private String challangedUser;
     private String ID;
-    //GPS coordinates
 
-    @Override
-    public String toString() {
-        return "Challenge{" +
-                "title='" + title + '\'' +
-                ", creatorUser='" + creatorUser + '\'' +
-                ", challangedUser='" + challangedUser + '\'' +
-                ", ID='" + ID + '\'' +
-                '}';
-    }
+    private Position position;
+    //GPS coordinates
 
     public String getTitle() {
         return title;
@@ -27,6 +19,15 @@ public class Challenge {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     public String getCreatorUser() {
@@ -51,5 +52,16 @@ public class Challenge {
 
     public void setID(String ID) {
         this.ID = ID;
+    }
+
+    @Override
+    public String toString() {
+        return "Challenge{" +
+                "title='" + title + '\'' +
+                ", creatorUser='" + creatorUser + '\'' +
+                ", challangedUser='" + challangedUser + '\'' +
+                ", ID='" + ID + '\'' +
+                ", position=" + position +
+                '}';
     }
 }

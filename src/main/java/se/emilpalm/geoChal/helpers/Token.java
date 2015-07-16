@@ -15,12 +15,11 @@ public class Token {
 
     private String username;
 
-    private final long threeHours = 1000*60*60*3;
 
     public Token(String username) {
         this.username = username;
         token = UUID.randomUUID();
-        expireTime = System.currentTimeMillis() + threeHours; //Current time + 3 hours.
+        expireTime = System.currentTimeMillis() + Constants.THREE_HOURS_MILLIS; //Current time + 3 hours.
     }
 
     public boolean isValid() {
@@ -28,7 +27,7 @@ public class Token {
     }
 
     public void reNew() {
-        this.expireTime = System.currentTimeMillis() + threeHours;
+        this.expireTime = System.currentTimeMillis() + Constants.THREE_HOURS_MILLIS;
     }
 
     public Token(UUID token, long expireTime, String username) {

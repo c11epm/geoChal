@@ -6,18 +6,18 @@ import java.util.List;
 /**
  * Created by emil on 2015-07-15.
  */
-public class User {
+public class UserData {
     private String username;
     private String password;
     private int id;
     private int points;
-    private List<User> friends;
+    private List<UserData> friends;
 
-    public User() {
+    public UserData() {
 
     }
 
-    public User(String username, String password, int id) {
+    public UserData(String username, String password, int id) {
         this.username = username;
         this.password = password;
         this.id = id;
@@ -25,10 +25,18 @@ public class User {
         friends = new LinkedList<>();
     }
 
+    public UserData(String username, String password, int id, int points, List<UserData> friends) {
+        this.username = username;
+        this.password = password;
+        this.id = id;
+        this.points = points;
+        this.friends = friends;
+    }
+
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof User) {
-            User u = (User) obj;
+        if(obj instanceof UserData) {
+            UserData u = (UserData) obj;
             return u.id == this.id && u.username.equals(this.username);
         }
         return false;
@@ -66,11 +74,11 @@ public class User {
         this.points = points;
     }
 
-    public List<User> getFriends() {
+    public List<UserData> getFriends() {
         return friends;
     }
 
-    public void setFriends(List<User> friends) {
+    public void setFriends(List<UserData> friends) {
         this.friends = friends;
     }
 }

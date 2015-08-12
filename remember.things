@@ -1,0 +1,4 @@
+set headers to contain application/json (content-type)
+
+mvn3 appengine:update update on gae
+mvn3 appengine:devserver local server

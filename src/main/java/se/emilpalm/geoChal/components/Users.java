@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import se.emilpalm.geoChal.helpers.Login;
-import se.emilpalm.geoChal.helpers.User;
+import se.emilpalm.geoChal.helpers.UserData;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,31 +20,31 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Users {
 
 
-    private static Map<String, User> users = new ConcurrentHashMap<>();
+    private static Map<String, UserData> users = new ConcurrentHashMap<>();
+    private static int count = 0;
 
     @RequestMapping(value = "/user/{name}", method = RequestMethod.GET)
-    public ResponseEntity<User> getUser(@PathVariable String name) {
-        User user = users.get(name);
+    public ResponseEntity<UserData> getUser(@PathVariable String name) {
+        UserData user = Dbhandler.getInstance().getUser(name);
         if(user == null) {
-            return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<UserData>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<User>(users.get(name), HttpStatus.OK);
+        return new ResponseEntity<UserData>(users.get(name), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity<String> newUser(@RequestBody Login login) {
         if(users.containsKey(login.getUsername())) {
-            return new ResponseEntity<String>("User already registered.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>("UserData already registered.", HttpStatus.BAD_REQUEST);
         }
-        User newUser = new User(login.getUsername(), login.getPassword(), users.size());
-        users.put(newUser.getUsername(), newUser);
-
+        UserData newUser = new UserData(login.getUsername(), login.getPassword(), ++count);
+        Dbhandler.getInstance().createUser(newUser);
         String response = "User: " + newUser.getUsername() + " created successfully";
 
         return new ResponseEntity<String>(response, HttpStatus.OK);
     }
 
-    public static User getStoredUser(String username) {
+    public static UserData getStoredUser(String username) {
         return users.get(username);
     }
 }

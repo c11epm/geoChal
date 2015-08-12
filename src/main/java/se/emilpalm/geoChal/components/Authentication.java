@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import se.emilpalm.geoChal.helpers.Token;
-import se.emilpalm.geoChal.helpers.User;
+import se.emilpalm.geoChal.helpers.UserData;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,12 +24,23 @@ public class Authentication {
     public ResponseEntity<Token> login(@RequestBody Login login) {
 
         if(login != null) {
-            User u = Users.getStoredUser(login.getUsername());
+            UserData u = Users.getStoredUser(login.getUsername());
             if(u != null && u.getPassword().equals(login.getPassword()) && u.getUsername().equals(login.getUsername())) {
-                if(tokens.get(u.getUsername()).isValid()) {
-                    return new ResponseEntity<Token>(tokens.get(u.getUsername()), HttpStatus.OK);
+                if(tokens.containsKey(u.getUsername())) {
+                    if(tokens.get(u.getUsername()).isValid()) {
+                        return new ResponseEntity<Token>(tokens.get(u.getUsername()), HttpStatus.OK);
+                    } else {
+                        //Delete old token
+                        tokens.remove(u.getUsername());
+                        //Put new one in.
+                        tokens.put(u.getUsername(), new Token(u.getUsername()));
+                    }
                 }
-                tokens.put(u.getUsername(), new Token(u.getUsername()));
+                //If token not exists
+                else {
+                    tokens.put(u.getUsername(), new Token(u.getUsername()));
+                }
+
 
                 return new ResponseEntity<Token>(tokens.get(u.getUsername()), HttpStatus.OK);
             }

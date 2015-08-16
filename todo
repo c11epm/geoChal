@@ -1,0 +1,5 @@
+* Fix return of user password in user data/info
+* Start building app... :D
+* Give user points if challenge is succeeded
+* Come up with a way to update user profiles in DB.
+* Tokens in DB

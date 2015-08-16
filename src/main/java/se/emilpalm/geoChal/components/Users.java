@@ -17,34 +17,35 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by emil on 2015-07-15.
  */
 @Controller
-public class Users {
+public class Users extends BaseComponent{
 
 
-    private static Map<String, UserData> users = new ConcurrentHashMap<>();
     private static int count = 0;
 
+    //Get info about one user
     @RequestMapping(value = "/user/{name}", method = RequestMethod.GET)
     public ResponseEntity<UserData> getUser(@PathVariable String name) {
-        UserData user = Dbhandler.getInstance().getUser(name);
+        UserData user = getStoredUser(name);
         if(user == null) {
-            return new ResponseEntity<UserData>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<UserData>(users.get(name), HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    //Create new user
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseEntity<String> newUser(@RequestBody Login login) {
-        if(users.containsKey(login.getUsername())) {
-            return new ResponseEntity<String>("UserData already registered.", HttpStatus.BAD_REQUEST);
+        UserData user = getStoredUser(login.getUsername());
+        if(user != null) {
+            //If user already exists
+            return new ResponseEntity<>("UserData already registered.", HttpStatus.BAD_REQUEST);
         }
-        UserData newUser = new UserData(login.getUsername(), login.getPassword(), ++count);
+        //Else, create a new user and add to db
+        UserData newUser = new UserData(login.getUsername(), login.getPassword(), Dbhandler.getInstance().getNextUserID());
         Dbhandler.getInstance().createUser(newUser);
         String response = "User: " + newUser.getUsername() + " created successfully";
 
-        return new ResponseEntity<String>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    public static UserData getStoredUser(String username) {
-        return users.get(username);
-    }
 }

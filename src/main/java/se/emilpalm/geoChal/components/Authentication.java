@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by emil on 2015-07-14.
  */
 @Controller
-public class Authentication {
+public class Authentication extends BaseComponent {
 
     private Map<String, Token> tokens = new ConcurrentHashMap<>();
 
@@ -24,7 +24,7 @@ public class Authentication {
     public ResponseEntity<Token> login(@RequestBody Login login) {
 
         if(login != null) {
-            UserData u = Users.getStoredUser(login.getUsername());
+            UserData u = getStoredUser(login.getUsername());
             if(u != null && u.getPassword().equals(login.getPassword()) && u.getUsername().equals(login.getUsername())) {
                 if(tokens.containsKey(u.getUsername())) {
                     if(tokens.get(u.getUsername()).isValid()) {
@@ -42,11 +42,11 @@ public class Authentication {
                 }
 
 
-                return new ResponseEntity<Token>(tokens.get(u.getUsername()), HttpStatus.OK);
+                return new ResponseEntity<>(tokens.get(u.getUsername()), HttpStatus.OK);
             }
         }
 
-        return new ResponseEntity<Token>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 }

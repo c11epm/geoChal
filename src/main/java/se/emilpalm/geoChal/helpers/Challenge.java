@@ -1,26 +1,25 @@
 package se.emilpalm.geoChal.helpers;
 
+import java.util.UUID;
+
 /**
  * Created by emil on 2015-07-15.
  */
 public class Challenge {
 
-    private String title;
     private String creatorUser;
     private String challangedUser;
-    private String ID;
+    private UUID id;
 
     private Position position;
     //GPS coordinates
 
-    public String getTitle() {
-        return title;
+    public Challenge(String creatorUser, String challangedUser, UUID id, Position position) {
+        this.creatorUser = creatorUser;
+        this.challangedUser = challangedUser;
+        this.id = id;
+        this.position = position;
     }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
 
     public Position getPosition() {
         return position;
@@ -46,22 +45,12 @@ public class Challenge {
         this.challangedUser = challangedUser;
     }
 
-    public String getID() {
-        return ID;
+    public UUID getID() {
+        return id;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setID(UUID id) {
+        this.id = id;
     }
 
-    @Override
-    public String toString() {
-        return "Challenge{" +
-                "title='" + title + '\'' +
-                ", creatorUser='" + creatorUser + '\'' +
-                ", challangedUser='" + challangedUser + '\'' +
-                ", ID='" + ID + '\'' +
-                ", position=" + position +
-                '}';
-    }
 }

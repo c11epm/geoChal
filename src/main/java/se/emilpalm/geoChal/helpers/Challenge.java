@@ -1,32 +1,39 @@
 package se.emilpalm.geoChal.helpers;
 
-import java.util.UUID;
-
 /**
  * Created by emil on 2015-07-15.
  */
 public class Challenge {
 
     private String creatorUser;
-    private String challangedUser;
-    private UUID id;
+    private String challengedUser;
+    private String id;
 
-    private Position position;
     //GPS coordinates
 
-    public Challenge(String creatorUser, String challangedUser, UUID id, Position position) {
+    private double longitude;
+    private double latitude;
+
+    public Challenge(String creatorUser, String challengedUser, String id, double latitude, double longitude) {
         this.creatorUser = creatorUser;
-        this.challangedUser = challangedUser;
+        this.challengedUser = challengedUser;
         this.id = id;
-        this.position = position;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
+
+    public Challenge() {}
 
     public Position getPosition() {
-        return position;
+        Position pos = new Position();
+        pos.setLatitude(latitude);
+        pos.setLongitude(longitude);
+        return pos;
     }
 
-    public void setPosition(Position position) {
-        this.position = position;
+    public void setPosition(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getCreatorUser() {
@@ -37,20 +44,35 @@ public class Challenge {
         this.creatorUser = creatorUser;
     }
 
-    public String getChallangedUser() {
-        return challangedUser;
+    public String getChallengedUser() {
+        return challengedUser;
     }
 
-    public void setChallangedUser(String challangedUser) {
-        this.challangedUser = challangedUser;
+    public void setChallengedUser(String challengedUser) {
+        this.challengedUser = challengedUser;
     }
 
-    public UUID getID() {
+    public String getID() {
         return id;
     }
 
-    public void setID(UUID id) {
+    public void setID(String id) {
         this.id = id;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
 }

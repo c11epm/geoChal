@@ -9,26 +9,23 @@ import java.util.List;
 public class UserData {
     private String username;
     private String password;
-    private int id;
-    private int points;
+    private long points;
     private List<UserData> friends;
 
     public UserData() {
 
     }
 
-    public UserData(String username, String password, int id) {
+    public UserData(String username, String password) {
         this.username = username;
         this.password = password;
-        this.id = id;
         points = 0;
         friends = new LinkedList<>();
     }
 
-    public UserData(String username, String password, int id, int points, List<UserData> friends) {
+    public UserData(String username, String password, long points, List<UserData> friends) {
         this.username = username;
         this.password = password;
-        this.id = id;
         this.points = points;
         this.friends = friends;
     }
@@ -37,7 +34,7 @@ public class UserData {
     public boolean equals(Object obj) {
         if(obj instanceof UserData) {
             UserData u = (UserData) obj;
-            return u.id == this.id && u.username.equals(this.username);
+            return u.username.equals(this.username);
         }
         return false;
     }
@@ -58,15 +55,7 @@ public class UserData {
         this.password = password;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getPoints() {
+    public long getPoints() {
         return points;
     }
 
@@ -80,5 +69,9 @@ public class UserData {
 
     public void setFriends(List<UserData> friends) {
         this.friends = friends;
+    }
+
+    public void addPoints(int i) {
+        points += i;
     }
 }

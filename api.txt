@@ -6,4 +6,18 @@ POST /challenge (json token, permissions?) -> 200 OK / 400 ?
 
 POST /newUser json username, password -> 200 OK / 400 ?
 
+create user
+{
+"username":"emil", "password":hejsan
+}
+
+Create challenge
+{
+    "creatorUser": "test",
+    "challengedUser": "emil",
+    "id": "5ce27f7a-4761-11e5-a151-feff819cdc9f",
+    "longitude": 40.02,
+    "latitude": 20.02
+}
+
 

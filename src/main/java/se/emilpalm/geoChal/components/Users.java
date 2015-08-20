@@ -10,17 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import se.emilpalm.geoChal.helpers.Login;
 import se.emilpalm.geoChal.helpers.UserData;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 /**
  * Created by emil on 2015-07-15.
  */
 @Controller
 public class Users extends BaseComponent{
-
-
-    private static int count = 0;
 
     //Get info about one user
     @RequestMapping(value = "/user/{name}", method = RequestMethod.GET)
@@ -41,7 +35,7 @@ public class Users extends BaseComponent{
             return new ResponseEntity<>("UserData already registered.", HttpStatus.BAD_REQUEST);
         }
         //Else, create a new user and add to db
-        UserData newUser = new UserData(login.getUsername(), login.getPassword(), Dbhandler.getInstance().getNextUserID());
+        UserData newUser = new UserData(login.getUsername(), login.getPassword());
         Dbhandler.getInstance().createUser(newUser);
         String response = "User: " + newUser.getUsername() + " created successfully";
 

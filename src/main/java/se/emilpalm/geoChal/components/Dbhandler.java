@@ -1,17 +1,12 @@
 package se.emilpalm.geoChal.components;
 
 import com.google.appengine.api.datastore.*;
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 
 import se.emilpalm.geoChal.helpers.Challenge;
-import se.emilpalm.geoChal.helpers.Position;
 import se.emilpalm.geoChal.helpers.UserData;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by emil on 2015-08-12.
@@ -33,21 +28,11 @@ public class Dbhandler {
     }
 
     public void createUser(UserData newUser) {
-        UserService userService = UserServiceFactory.getUserService();
-        User user = userService.getCurrentUser();
-
         Key key = KeyFactory.createKey("users", newUser.getUsername());
         Entity entity = new Entity("User", key);
 
-        if (user != null) {
-            entity.setProperty("author_id", user.getUserId());
-            entity.setProperty("author_email", user.getEmail());
-            System.err.println("HELLO::::" + user.getUserId() + user.getEmail());
-        }
-
         entity.setProperty("username", newUser.getUsername());
         entity.setProperty("password", newUser.getPassword());
-        entity.setProperty("id", newUser.getId());
         entity.setProperty("points", newUser.getPoints());
         entity.setProperty("friends", newUser.getFriends());
 
@@ -64,7 +49,7 @@ public class Dbhandler {
         Query query = new Query("User");
         List<Entity> entities = dss.prepare(query).asList(FetchOptions.Builder.withDefaults());
         for(Entity entity : entities) {
-            users.add(new UserData((String)entity.getProperty("username"), (String)entity.getProperty("password"), (int)entity.getProperty("id"), (int)entity.getProperty("points"), (List<UserData>)entity.getProperty("friends")));
+            users.add(new UserData((String)entity.getProperty("username"), (String)entity.getProperty("password"), (long)entity.getProperty("points"), (List<UserData>)entity.getProperty("friends")));
         }
         return users;
     }
@@ -78,31 +63,17 @@ public class Dbhandler {
         return null;
     }
 
-    //FIXME: Kind of ugly hack that could be bad if insertion happends at the same time as getting size.
-    public int getNextUserID() {
-        return getUsers().size();
-    }
-
     public void createChallenge(Challenge challenge) {
-        UserService userService = UserServiceFactory.getUserService();
-        User user = userService.getCurrentUser();
-
-        Key key = KeyFactory.createKey("challenges", challenge.getID().toString());
+        Key key = KeyFactory.createKey("challenges", challenge.getID());
         Entity entity = new Entity("Challenge", key);
 
-        if (user != null) {
-            entity.setProperty("author_id", user.getUserId());
-            entity.setProperty("author_email", user.getEmail());
-            System.err.println("HELLO::::" + user.getUserId() + user.getEmail());
-        }
-
         entity.setProperty("creatorUser", challenge.getCreatorUser());
-        entity.setProperty("challengedUser", challenge.getChallangedUser());
+        entity.setProperty("challengedUser", challenge.getChallengedUser());
         entity.setProperty("id", challenge.getID());
-        entity.setProperty("position", challenge.getPosition());
+        entity.setProperty("latitude", challenge.getLatitude());
+        entity.setProperty("longitude", challenge.getLongitude());
 
         dss.put(entity);
-
     }
 
     private List<Challenge> getChallenges() {
@@ -110,7 +81,11 @@ public class Dbhandler {
         Query query = new Query("Challenge");
         List<Entity> entities = dss.prepare(query).asList(FetchOptions.Builder.withDefaults());
         for(Entity entity : entities) {
-            challenges.add(new Challenge((String) entity.getProperty("creatorUser"), (String) entity.getProperty("challengedUser"), (UUID) entity.getProperty("id"), (Position) entity.getProperty("position")));
+            challenges.add(new Challenge((String) entity.getProperty("creatorUser"),
+                    (String) entity.getProperty("challengedUser"),
+                    (String) entity.getProperty("id"),
+                    (double) entity.getProperty("latitude"),
+                    (double) entity.getProperty("longitude")));
         }
         return challenges;
     }
@@ -118,7 +93,7 @@ public class Dbhandler {
     public List<Challenge> getChallengesForChallengedUser(String username) {
         ArrayList<Challenge> challenges = new ArrayList<>();
         for(Challenge challenge : getChallenges()) {
-            if(challenge.getChallangedUser().equals(username)) {
+            if(challenge.getChallengedUser().equals(username)) {
                 challenges.add(challenge);
             }
         }
@@ -135,7 +110,7 @@ public class Dbhandler {
         return challenges;
     }
 
-    public Challenge getChallenge(UUID id) {
+    public Challenge getChallenge(String id) {
         for(Challenge challenge : getChallenges()) {
             if(id.equals(challenge.getID())) {
                 return challenge;

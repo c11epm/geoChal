@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import se.emilpalm.geoChal.helpers.Challenge;
 import se.emilpalm.geoChal.helpers.Haversine;
 import se.emilpalm.geoChal.helpers.Position;
+import se.emilpalm.geoChal.helpers.UserData;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by emil on 2015-07-15.
  */
 @Controller
-public class Challenges {
+public class Challenges extends BaseComponent {
 
     @RequestMapping(value = "/challenge", method = RequestMethod.POST)
     public ResponseEntity<String> newChallenge(@RequestBody Challenge challenge) {
@@ -47,23 +47,32 @@ public class Challenges {
     }
 
     @RequestMapping(value = "/challenge/location/{id}", method = RequestMethod.POST)
-    public ResponseEntity<String> tellLocationForChallenge(@PathVariable String id, @RequestBody Position poistion) {
-        if(id == null || poistion == null) {
+    public ResponseEntity<String> tellLocationForChallenge(@PathVariable String id, @RequestBody Position position) {
+        if(id == null || position == null) {
             return new ResponseEntity<>("Id or position not correctly given",HttpStatus.BAD_REQUEST);
         }
 
-        Challenge challenge = Dbhandler.getInstance().getChallenge(UUID.fromString(id));
+        Challenge challenge = Dbhandler.getInstance().getChallenge(id);
         if(challenge == null) {
             return new ResponseEntity<>("Challenge not found.", HttpStatus.BAD_REQUEST);
         }
 
         double maxDistanceToPassChallenge = 0.02; //in kilometers
+        double distance = Haversine.haversine(challenge.getPosition(), position);
 
-        if(Haversine.haversine(challenge.getPosition(), poistion) < maxDistanceToPassChallenge) {
+        System.err.println("CHALLENGE: " + challenge.getLatitude() + " long: " + challenge.getLongitude());
+        System.err.println("POSITION: " + position.getLatitude() + " long: " + position.getLongitude());
+
+        if(distance < maxDistanceToPassChallenge) {
+
+            UserData user = getStoredUser(challenge.getChallengedUser());
+            user.addPoints(20);
+            Dbhandler.getInstance().createUser(user);
+
             //TODO Give points, remove/set as succeeded challenge.
             return new ResponseEntity<>("Challenge succeeded, well done!", HttpStatus.OK);
         }
-
+        System.err.println("DISTANCE: " + distance);
         //FIXME
         return new ResponseEntity<String>("Challenge not done. Not to close to the position.", HttpStatus.BAD_REQUEST);
     }

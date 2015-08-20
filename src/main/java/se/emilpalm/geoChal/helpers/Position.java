@@ -4,7 +4,6 @@ package se.emilpalm.geoChal.helpers;
  * Created by emil on 2015-07-16.
  */
 public class Position {
-
     private double longitude;
     private double latitude;
 

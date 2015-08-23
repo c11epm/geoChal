@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import se.emilpalm.geoChal.helpers.Challenge;
-import se.emilpalm.geoChal.helpers.Haversine;
-import se.emilpalm.geoChal.helpers.Position;
-import se.emilpalm.geoChal.helpers.UserData;
+import se.emilpalm.geoChal.helpers.*;
 
 import java.util.List;
 
@@ -21,13 +18,13 @@ import java.util.List;
 public class Challenges extends BaseComponent {
 
     @RequestMapping(value = "/challenge", method = RequestMethod.POST)
-    public ResponseEntity<String> newChallenge(@RequestBody Challenge challenge) {
+    public ResponseEntity<Info> newChallenge(@RequestBody Challenge challenge) {
         if(challenge == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Info>(new Info("Could not create a challenge with supplied data.", HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
         }
 
         Dbhandler.getInstance().createChallenge(challenge);
-        return new ResponseEntity<String>("Challenge created.", HttpStatus.OK);
+        return new ResponseEntity<Info>(new Info("Challenge created.", HttpStatus.OK.value()), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/challenge/challenged/{name}", method = RequestMethod.GET)
@@ -47,14 +44,14 @@ public class Challenges extends BaseComponent {
     }
 
     @RequestMapping(value = "/challenge/location/{id}", method = RequestMethod.POST)
-    public ResponseEntity<String> tellLocationForChallenge(@PathVariable String id, @RequestBody Position position) {
+    public ResponseEntity<Info> tellLocationForChallenge(@PathVariable String id, @RequestBody Position position) {
         if(id == null || position == null) {
-            return new ResponseEntity<>("Id or position not correctly given",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Info("Id or position not correctly given",HttpStatus.BAD_REQUEST.value()),HttpStatus.BAD_REQUEST);
         }
 
         Challenge challenge = Dbhandler.getInstance().getChallenge(id);
         if(challenge == null) {
-            return new ResponseEntity<>("Challenge not found.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Info("Challenge not found.", HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
         }
 
         double maxDistanceToPassChallenge = 0.02; //in kilometers
@@ -70,10 +67,10 @@ public class Challenges extends BaseComponent {
             Dbhandler.getInstance().createUser(user);
 
             //TODO Give points, remove/set as succeeded challenge.
-            return new ResponseEntity<>("Challenge succeeded, well done!", HttpStatus.OK);
+            return new ResponseEntity<Info>(new Info("Challenge succeeded, well done!", HttpStatus.OK.value()), HttpStatus.OK);
         }
         System.err.println("DISTANCE: " + distance);
         //FIXME
-        return new ResponseEntity<String>("Challenge not done. Not to close to the position.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Info>(new Info("Challenge not done. Not to close to the position.", HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
     }
 }

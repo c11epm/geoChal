@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import se.emilpalm.geoChal.helpers.Info;
 import se.emilpalm.geoChal.helpers.Login;
 import se.emilpalm.geoChal.helpers.UserData;
 
@@ -28,18 +29,18 @@ public class Users extends BaseComponent{
 
     //Create new user
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public ResponseEntity<String> newUser(@RequestBody Login login) {
+    public ResponseEntity<Info> newUser(@RequestBody Login login) {
         UserData user = getStoredUser(login.getUsername());
         if(user != null) {
             //If user already exists
-            return new ResponseEntity<>("UserData already registered.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Info>(new Info("UserData already registered.", HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
         }
         //Else, create a new user and add to db
         UserData newUser = new UserData(login.getUsername(), login.getPassword());
         Dbhandler.getInstance().createUser(newUser);
-        String response = "User: " + newUser.getUsername() + " created successfully";
+        String response = "User: \'" + newUser.getUsername() + "\' created successfully";
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<Info>(new Info(response, HttpStatus.OK.value()), HttpStatus.OK);
     }
 
 }

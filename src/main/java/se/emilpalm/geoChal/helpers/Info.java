@@ -5,11 +5,11 @@ package se.emilpalm.geoChal.helpers;
  */
 public class Info {
     private String message;
-    private int statusCode;
+    private int status;
 
     public Info(String message, int statusCode) {
         this.message = message;
-        this.statusCode = statusCode;
+        this.status = statusCode;
     }
 
     public String getMessage() {
@@ -21,10 +21,10 @@ public class Info {
     }
 
     public int getStatusCode() {
-        return statusCode;
+        return status;
     }
 
     public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+        this.status = statusCode;
     }
 }

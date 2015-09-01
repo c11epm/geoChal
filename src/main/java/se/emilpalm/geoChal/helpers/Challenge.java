@@ -1,9 +1,12 @@
 package se.emilpalm.geoChal.helpers;
 
+import java.util.UUID;
+
 /**
  * Created by emil on 2015-07-15.
  */
 public class Challenge {
+    //TODO add expire time and created time
 
     private String creatorUser;
     private String challengedUser;
@@ -13,6 +16,14 @@ public class Challenge {
 
     private double longitude;
     private double latitude;
+
+    public Challenge(ChallengeCreate chal) {
+        this.creatorUser = chal.getCreatorUser();
+        this.challengedUser = chal.getChallengedUser();
+        this.id = UUID.randomUUID().toString();
+        this.longitude = chal.getLongitude();
+        this.latitude = chal.getLatitude();
+    }
 
     public Challenge(String creatorUser, String challengedUser, String id, double latitude, double longitude) {
         this.creatorUser = creatorUser;

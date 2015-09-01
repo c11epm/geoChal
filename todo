@@ -1,5 +1,7 @@
 * Fix return of user password in user data/info
 * Start building app... :D
-* Give user points if challenge is succeeded
+* Give user points if challenge is succeeded -
+    sort of done, not tested. What happens with the user when trying to update th profile with points...
 * Come up with a way to update user profiles in DB.
-* Tokens in DB
+* Tokens in DB not needed? need only to save in mem, would be ok.
+* Check whether or not the request bodies contains correct data...

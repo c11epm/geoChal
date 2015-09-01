@@ -15,7 +15,7 @@ import se.emilpalm.geoChal.helpers.UserData;
  * Created by emil on 2015-07-15.
  */
 @Controller
-public class Users extends BaseComponent{
+public class Users extends BaseComponent {
 
     //Get info about one user
     @RequestMapping(value = "/user/{name}", method = RequestMethod.GET)
@@ -33,7 +33,7 @@ public class Users extends BaseComponent{
         UserData user = getStoredUser(login.getUsername());
         if(user != null) {
             //If user already exists
-            return new ResponseEntity<Info>(new Info("UserData already registered.", HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Info>(new Info(login.getUsername() +" already registered.", HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
         }
         //Else, create a new user and add to db
         UserData newUser = new UserData(login.getUsername(), login.getPassword());

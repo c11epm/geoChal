@@ -18,13 +18,13 @@ import java.util.List;
 public class Challenges extends BaseComponent {
 
     @RequestMapping(value = "/challenge", method = RequestMethod.POST)
-    public ResponseEntity<Info> newChallenge(@RequestBody Challenge challenge) {
+    public ResponseEntity<Info> newChallenge(@RequestBody ChallengeCreate challenge) {
         if(challenge == null) {
             return new ResponseEntity<Info>(new Info("Could not create a challenge with supplied data.", HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
         }
-
-        Dbhandler.getInstance().createChallenge(challenge);
-        return new ResponseEntity<Info>(new Info("Challenge created.", HttpStatus.OK.value()), HttpStatus.OK);
+        Challenge chal = new Challenge(challenge);
+        Dbhandler.getInstance().createChallenge(chal);
+        return new ResponseEntity<Info>(new Info("Challenge created successfully.", HttpStatus.OK.value()), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/challenge/challenged/{name}", method = RequestMethod.GET)

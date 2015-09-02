@@ -17,6 +17,8 @@ public class ChallengeCreate {
         this.latitude = latitude;
     }
 
+    public ChallengeCreate() {}
+
     public String getCreatorUser() {
         return creatorUser;
     }

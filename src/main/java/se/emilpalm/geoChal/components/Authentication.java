@@ -1,5 +1,6 @@
 package se.emilpalm.geoChal.components;
 
+import se.emilpalm.geoChal.helpers.Info;
 import se.emilpalm.geoChal.helpers.Login;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class Authentication extends BaseComponent {
             if(u != null && u.getPassword().equals(login.getPassword()) && u.getUsername().equals(login.getUsername())) {
                 if(tokens.containsKey(u.getUsername())) {
                     if(tokens.get(u.getUsername()).isValid()) {
-                        return new ResponseEntity<Token>(tokens.get(u.getUsername()), HttpStatus.OK);
+                        return new ResponseEntity<>(tokens.get(u.getUsername()), HttpStatus.OK);
                     } else {
                         //Delete old token
                         tokens.remove(u.getUsername());
@@ -41,11 +42,9 @@ public class Authentication extends BaseComponent {
                     tokens.put(u.getUsername(), new Token(u.getUsername()));
                 }
 
-
                 return new ResponseEntity<>(tokens.get(u.getUsername()), HttpStatus.OK);
             }
         }
-
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 

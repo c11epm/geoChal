@@ -28,15 +28,15 @@ public class Dbhandler {
     }
 
     public void createUser(UserData newUser) {
-        Key key = KeyFactory.createKey("users", newUser.getUsername());
-        Entity entity = new Entity("User", key);
+        //Key key = KeyFactory.createKey("users", newUser.getUsername());
+        Entity entity = new Entity("User", newUser.getUsername());
 
-        try {
+        /*try {
             Entity e = dss.get(key);
             dss.delete(key);
         } catch (EntityNotFoundException e1) {
             //Ok, since the entity was not found.
-        }
+        }*/
 
         entity.setProperty("username", newUser.getUsername());
         entity.setProperty("password", newUser.getPassword());
@@ -71,15 +71,15 @@ public class Dbhandler {
     }
 
     public void createChallenge(Challenge challenge) {
-        Key key = KeyFactory.createKey("challenges", challenge.getID());
-        Entity entity = new Entity("Challenge", key);
+        //Key key = KeyFactory.createKey("challenges", challenge.getID());
+        Entity entity = new Entity("Challenge", challenge.getID());
 
-        try {
+        /*try {
             Entity e = dss.get(key);
             dss.delete(key);
         } catch (EntityNotFoundException e1) {
             //Ok, since the entity was not found.
-        }
+        }*/
 
         entity.setProperty("creatorUser", challenge.getCreatorUser());
         entity.setProperty("challengedUser", challenge.getChallengedUser());

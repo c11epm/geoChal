@@ -28,19 +28,19 @@ public class Challenges extends BaseComponent {
     }
 
     @RequestMapping(value = "/challenge/challenged/{name}", method = RequestMethod.GET)
-    public ResponseEntity<List<Challenge>> getChallengesForChallengedUser(@PathVariable String name) {
+    public ResponseEntity<ChallengeList> getChallengesForChallengedUser(@PathVariable String name) {
         if (name == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(Dbhandler.getInstance().getChallengesForChallengedUser(name), HttpStatus.OK);
+        return new ResponseEntity<>(new ChallengeList(Dbhandler.getInstance().getChallengesForChallengedUser(name)), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/challenge/creator/{name}", method = RequestMethod.GET)
-    public ResponseEntity<List<Challenge>> getChallengesForCreatorUser(@PathVariable String name) {
+    public ResponseEntity<ChallengeList> getChallengesForCreatorUser(@PathVariable String name) {
         if (name == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(Dbhandler.getInstance().getChallengesForCreatorUser(name), HttpStatus.OK);
+        return new ResponseEntity<>(new ChallengeList(Dbhandler.getInstance().getChallengesForCreatorUser(name)), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/challenge/location/{id}", method = RequestMethod.POST)

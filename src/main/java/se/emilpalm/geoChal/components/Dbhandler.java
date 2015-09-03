@@ -31,6 +31,13 @@ public class Dbhandler {
         Key key = KeyFactory.createKey("users", newUser.getUsername());
         Entity entity = new Entity("User", key);
 
+        try {
+            Entity e = dss.get(key);
+            dss.delete(key);
+        } catch (EntityNotFoundException e1) {
+            //Ok, since the entity was not found.
+        }
+
         entity.setProperty("username", newUser.getUsername());
         entity.setProperty("password", newUser.getPassword());
         entity.setProperty("points", newUser.getPoints());
@@ -67,11 +74,19 @@ public class Dbhandler {
         Key key = KeyFactory.createKey("challenges", challenge.getID());
         Entity entity = new Entity("Challenge", key);
 
+        try {
+            Entity e = dss.get(key);
+            dss.delete(key);
+        } catch (EntityNotFoundException e1) {
+            //Ok, since the entity was not found.
+        }
+
         entity.setProperty("creatorUser", challenge.getCreatorUser());
         entity.setProperty("challengedUser", challenge.getChallengedUser());
         entity.setProperty("id", challenge.getID());
         entity.setProperty("latitude", challenge.getLatitude());
         entity.setProperty("longitude", challenge.getLongitude());
+        entity.setProperty("finished", challenge.getFinished());
 
         dss.put(entity);
     }
@@ -85,7 +100,8 @@ public class Dbhandler {
                     (String) entity.getProperty("challengedUser"),
                     (String) entity.getProperty("id"),
                     (double) entity.getProperty("latitude"),
-                    (double) entity.getProperty("longitude")));
+                    (double) entity.getProperty("longitude"),
+                    (long) entity.getProperty("finished")));
         }
         return challenges;
     }

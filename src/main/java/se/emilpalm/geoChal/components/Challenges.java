@@ -52,25 +52,23 @@ public class Challenges extends BaseComponent {
         Challenge challenge = Dbhandler.getInstance().getChallenge(id);
         if(challenge == null) {
             return new ResponseEntity<>(new Info("Challenge not found.", HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
+        } else if (challenge.getFinished() != 0) {
+            return new ResponseEntity<>(new Info("Challenge already finished.", HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
         }
 
         double maxDistanceToPassChallenge = 0.02; //in kilometers
         double distance = Haversine.haversine(challenge.getPosition(), position);
-
-        System.err.println("CHALLENGE: " + challenge.getLatitude() + " long: " + challenge.getLongitude());
-        System.err.println("POSITION: " + position.getLatitude() + " long: " + position.getLongitude());
 
         if(distance < maxDistanceToPassChallenge) {
 
             UserData user = getStoredUser(challenge.getChallengedUser());
             user.addPoints(20);
             Dbhandler.getInstance().createUser(user);
+            challenge.setFinished(1);
+            Dbhandler.getInstance().createChallenge(challenge);
 
-            //TODO Give points, remove/set as succeeded challenge.
-            return new ResponseEntity<Info>(new Info("Challenge succeeded, well done!", HttpStatus.OK.value()), HttpStatus.OK);
+            return new ResponseEntity<>(new Info("Challenge succeeded, well done!", HttpStatus.OK.value()), HttpStatus.OK);
         }
-        System.err.println("DISTANCE: " + distance);
-        //FIXME
-        return new ResponseEntity<Info>(new Info("Challenge not done. Not to close to the position.", HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new Info("Challenge not done. Not to close to the position.", HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
     }
 }

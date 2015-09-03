@@ -17,7 +17,7 @@ import se.emilpalm.geoChal.helpers.UserData;
 @Controller
 public class Users extends BaseComponent {
 
-    //Get info about one user
+    //TODO not return passwords...
     @RequestMapping(value = "/user/{name}", method = RequestMethod.GET)
     public ResponseEntity<UserData> getUser(@PathVariable String name) {
         UserData user = getStoredUser(name);

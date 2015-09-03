@@ -17,6 +17,8 @@ public class Challenge {
     private double longitude;
     private double latitude;
 
+    private long finished;
+
     public Challenge(ChallengeCreate chal) {
         this.creatorUser = chal.getCreatorUser();
         this.challengedUser = chal.getChallengedUser();
@@ -31,9 +33,21 @@ public class Challenge {
         this.id = id;
         this.longitude = longitude;
         this.latitude = latitude;
+        finished = 0;
+    }
+
+    public Challenge(String creatorUser, String challengedUser, String id, double latitude, double longitude, long finished) {
+        this.creatorUser = creatorUser;
+        this.challengedUser = challengedUser;
+        this.id = id;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.finished = finished;
     }
 
     public Challenge() {}
+
+
 
     public Position getPosition() {
         Position pos = new Position();
@@ -86,4 +100,11 @@ public class Challenge {
         this.longitude = longitude;
     }
 
+    public long getFinished() {
+        return finished;
+    }
+
+    public void setFinished(long finished) {
+        this.finished = finished;
+    }
 }

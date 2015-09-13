@@ -5,6 +5,7 @@ import com.google.appengine.api.datastore.*;
 import se.emilpalm.geoChal.helpers.Challenge;
 import se.emilpalm.geoChal.helpers.UserData;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class Dbhandler {
         Query query = new Query("User");
         List<Entity> entities = dss.prepare(query).asList(FetchOptions.Builder.withDefaults());
         for(Entity entity : entities) {
-            users.add(new UserData((String)entity.getProperty("username"), (String)entity.getProperty("password"), (long)entity.getProperty("points"), (List<UserData>)entity.getProperty("friends")));
+            users.add(new UserData((String)entity.getProperty("username"), (String)entity.getProperty("password"), (long)entity.getProperty("points"), (ArrayList<String>)entity.getProperty("friends")));
         }
         return users;
     }

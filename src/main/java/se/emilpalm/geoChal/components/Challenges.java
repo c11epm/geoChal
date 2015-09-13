@@ -43,7 +43,7 @@ public class Challenges extends BaseComponent {
         return new ResponseEntity<>(new ChallengeList(Dbhandler.getInstance().getChallengesForCreatorUser(name)), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/challenge/location/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/challenge/{id}", method = RequestMethod.GET)
     public ResponseEntity<Challenge> getChallengeInfo(@PathVariable String id) {
         Challenge c = Dbhandler.getInstance().getChallenge(id);
         if(c == null) {
@@ -52,7 +52,7 @@ public class Challenges extends BaseComponent {
         return new ResponseEntity<Challenge>(c, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/challenge/location/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/challenge/{id}", method = RequestMethod.POST)
     public ResponseEntity<Info> tellLocationForChallenge(@PathVariable String id, @RequestBody Position position) {
         if(id == null || position == null) {
             return new ResponseEntity<>(new Info("Id or position not correctly given",HttpStatus.BAD_REQUEST.value()),HttpStatus.BAD_REQUEST);

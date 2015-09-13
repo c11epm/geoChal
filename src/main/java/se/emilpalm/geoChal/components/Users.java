@@ -3,13 +3,10 @@ package se.emilpalm.geoChal.components;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import se.emilpalm.geoChal.helpers.Info;
-import se.emilpalm.geoChal.helpers.Login;
-import se.emilpalm.geoChal.helpers.UserData;
+import org.springframework.web.bind.annotation.*;
+import se.emilpalm.geoChal.helpers.*;
+
+import javax.xml.ws.http.HTTPBinding;
 
 /**
  * Created by emil on 2015-07-15.
@@ -19,12 +16,19 @@ public class Users extends BaseComponent {
 
     //TODO not return passwords...
     @RequestMapping(value = "/user/{name}", method = RequestMethod.GET)
-    public ResponseEntity<UserData> getUser(@PathVariable String name) {
+    public ResponseEntity<UserInfo> getUser(@PathVariable String name) {
         UserData user = getStoredUser(name);
+
         if(user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
+
+        UserInfo info = new UserInfo();
+        info.setUsername(user.getUsername());
+        info.setFriends(user.getFriends());
+        info.setPoints(user.getPoints());
+
+        return new ResponseEntity<>(info, HttpStatus.OK);
     }
 
     //Create new user
@@ -41,6 +45,26 @@ public class Users extends BaseComponent {
         String response = "User: \'" + newUser.getUsername() + "\' created successfully";
 
         return new ResponseEntity<Info>(new Info(response, HttpStatus.OK.value()), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
+    public ResponseEntity<Info> addUser(@RequestBody UserAdd userAdd) {
+
+        Info info;
+        UserData u = getStoredUser(userAdd.getUser());
+        UserData a = getStoredUser(userAdd.getAdd());
+
+        if(u == null) {
+            info = new Info("Your username does not exist", HttpStatus.BAD_REQUEST.value());
+        } else if(a == null) {
+            info = new Info("User '" + userAdd.getAdd() + "' does not exist", HttpStatus.BAD_REQUEST.value());
+        } else {
+            u.addFriend(a.getUsername());
+            Dbhandler.getInstance().createUser(u);
+            info = new Info("User '" + userAdd.getAdd() + "' added to your friend list", HttpStatus.OK.value());
+        }
+        return new ResponseEntity<Info>(info, info.getStatusCode() == 200 ?
+                HttpStatus.OK : HttpStatus.BAD_REQUEST);
     }
 
 }

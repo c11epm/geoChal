@@ -1,5 +1,6 @@
 package se.emilpalm.geoChal.helpers;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class UserData {
     private String username;
     private String password;
     private long points;
-    private List<UserData> friends;
+    private ArrayList<String> friends;
 
     public UserData() {
 
@@ -20,10 +21,10 @@ public class UserData {
         this.username = username;
         this.password = password;
         points = 0;
-        friends = new LinkedList<>();
+        friends = new ArrayList<>();
     }
 
-    public UserData(String username, String password, long points, List<UserData> friends) {
+    public UserData(String username, String password, long points, ArrayList<String> friends) {
         this.username = username;
         this.password = password;
         this.points = points;
@@ -63,15 +64,22 @@ public class UserData {
         this.points = points;
     }
 
-    public List<UserData> getFriends() {
+    public ArrayList<String> getFriends() {
         return friends;
     }
 
-    public void setFriends(List<UserData> friends) {
+    public void setFriends(ArrayList<String> friends) {
         this.friends = friends;
     }
 
     public void addPoints(int i) {
         points += i;
+    }
+
+    public void addFriend(String add) {
+        if(friends == null) {
+            friends = new ArrayList<>();
+        }
+        friends.add(add);
     }
 }

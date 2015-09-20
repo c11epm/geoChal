@@ -9,6 +9,8 @@ import se.emilpalm.geoChal.helpers.*;
 import javax.xml.ws.http.HTTPBinding;
 
 /**
+ * Users
+ * Holds the functions to create users and get user info.
  * Created by emil on 2015-07-15.
  */
 @Controller

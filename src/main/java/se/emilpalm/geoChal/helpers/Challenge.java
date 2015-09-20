@@ -3,6 +3,9 @@ package se.emilpalm.geoChal.helpers;
 import java.util.UUID;
 
 /**
+ * Challenge
+ * Holds the info about a challenge.
+ *
  * Created by emil on 2015-07-15.
  */
 public class Challenge {

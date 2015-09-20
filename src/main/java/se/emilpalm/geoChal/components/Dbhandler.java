@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * DbHandler
+ * Creates the bridge to the google data store.
+ *
  * Created by emil on 2015-08-12.
  */
 public class Dbhandler {

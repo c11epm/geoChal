@@ -5,6 +5,10 @@ import com.google.gson.annotations.Expose;
 import java.util.UUID;
 
 /**
+ * Token
+ * Holds the token information for the user.
+ * At this point (2015-09-20) tokens are not used.
+ *
  * Created by emil on 2015-07-15.
  */
 public class Token {

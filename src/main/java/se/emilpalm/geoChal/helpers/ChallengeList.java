@@ -3,6 +3,9 @@ package se.emilpalm.geoChal.helpers;
 import java.util.List;
 
 /**
+ * ChallengeList
+ * Data placeholder class to return a list of challenges on the challenge list request
+ *
  * Created by emil on 2015-09-03.
  */
 public class ChallengeList {

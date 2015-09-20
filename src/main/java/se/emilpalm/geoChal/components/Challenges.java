@@ -12,6 +12,8 @@ import se.emilpalm.geoChal.helpers.*;
 import java.util.List;
 
 /**
+ * Challenges, holds all API functions for the challenges.
+ * Such as, create challenge, get challenge info, get challenges and finish challenges.
  * Created by emil on 2015-07-15.
  */
 @Controller

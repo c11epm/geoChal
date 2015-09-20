@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * UserInfo
+ * Data placeholder class to return information about a user.
+ *
  * Created by emil on 2015-09-13.
  */
 public class UserInfo {

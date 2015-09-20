@@ -1,6 +1,8 @@
 package se.emilpalm.geoChal.helpers;
 
 /**
+ * Position
+ * Data placeholder class to hold a position object with longitude - latitude format.
  * Created by emil on 2015-07-16.
  */
 public class Position {

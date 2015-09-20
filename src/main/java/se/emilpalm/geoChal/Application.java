@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 
 /**
+ * Application
+ * The application class, runs component scan to find the other API end-points.
+ *
  * Created by emil on 2015-07-14.
  */
 

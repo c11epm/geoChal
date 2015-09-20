@@ -2,6 +2,9 @@ package se.emilpalm.geoChal.helpers;
 
 
 /**
+ * Login
+ * Data placeholder class for the API login request, used to parse the login request JSON body.
+ *
  * Created by emil on 2015-07-14.
  */
 public class Login {

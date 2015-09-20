@@ -1,6 +1,10 @@
 package se.emilpalm.geoChal.helpers;
 
 /**
+ * Info
+ * Data placeholder class to return a info object on some API request,
+ * holds a message and HTTP status code.
+ *
  * Created by emil on 2015-08-23.
  */
 public class Info {

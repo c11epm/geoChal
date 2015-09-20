@@ -14,6 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
+ * Authentication class, holds the login function
+ *
  * Created by emil on 2015-07-14.
  */
 @Controller

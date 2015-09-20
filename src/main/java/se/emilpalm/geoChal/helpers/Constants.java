@@ -1,6 +1,9 @@
 package se.emilpalm.geoChal.helpers;
 
 /**
+ * Constants
+ * Holds static constants used in the system.
+ *
  * Created by emil on 2015-07-16.
  */
 public class Constants {

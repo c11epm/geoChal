@@ -1,6 +1,9 @@
 package se.emilpalm.geoChal.helpers;
 
 /**
+ * UserAdd
+ * Data placeholder class to parse the create user request
+ *
  * Created by emil on 2015-09-13.
  */
 public class UserAdd {

@@ -1,6 +1,9 @@
 package se.emilpalm.geoChal.helpers;
 
 /**
+ * ChallengeCreate
+ * Data placeholder class to receive a challenge create request
+ *
  * Created by emil on 2015-09-01.
  */
 public class ChallengeCreate {

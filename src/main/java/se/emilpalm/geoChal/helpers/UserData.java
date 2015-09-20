@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * UserData
+ * Contains all the information about a user in the system.
+ *
  * Created by emil on 2015-07-15.
  */
 public class UserData {
